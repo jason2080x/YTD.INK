@@ -72,7 +72,7 @@ const createWindow = () => {
     let err = null
     let options =
       '-F --print "@title@%(title)s#title#" --print "@duration@%(duration>%H:%M:%S)s#duration#" --list-thumbnails --encoding utf-8'
-    if (os.hostname() === 'pc2021') options += ' --proxy 192.168.60.80:10809'
+    if (os.hostname() === 'PC2021') options += ' --proxy 192.168.60.80:10809'
     try {
       output = child_process.execSync(path.join(ytdlp_path) + ' ' + options + ' ' + url)
     } catch (e) {
@@ -138,7 +138,7 @@ const createWindow = () => {
         req.quality + '-i-' + md5(req.url) + '.' + req.ext
       )
       options = ['-f', req.id, '-o', output_file_path_1, '--encoding', 'utf-8', req.url]
-      if (os.hostname() === 'pc2021') {
+      if (os.hostname() === 'PC2021') {
         options.push('--proxy')
         options.push('192.168.60.80:10809')
       }
@@ -160,7 +160,7 @@ const createWindow = () => {
             req.quality + '-audio-' + md5(req.url) + '.' + req.audio_ext
           )
           options = ['-f', req.audio_id, '-o', output_file_path_2, '--encoding', 'utf-8', req.url]
-          if (os.hostname() === 'pc2021') {
+          if (os.hostname() === 'PC2021') {
             options.push('--proxy')
             options.push('192.168.60.80:10809')
           }
