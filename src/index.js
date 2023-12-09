@@ -67,7 +67,7 @@ const createWindow = () => {
   })
   ipcMain.handle('get_info', (event, url) => {
     let res = { status_code: 0, error: '', data: null }
-    //let url = 'https://youtube.com/shorts/i-2l7L4xO_M?si=NChUw-_dJW7IjIMG'
+    // let url = 'https://youtube.com/shorts/i-2l7L4xO_M?si=NChUw-_dJW7IjIMG'
     let output = null
     let err = null
     let options =
