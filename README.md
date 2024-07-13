@@ -22,4 +22,4 @@ ytd.ink strives to provide fast and efficient video downloads. Using advanced te
 
 The user interface of ytd.ink is intuitive and easy to navigate. You don't need to be a tech expert to use this service. Its simple design ensures that anyone can download YouTube videos effortlessly, even with minimal technical knowledge.
 
-[encyclopedia]([https://ytd.ink/](https://encyclopedia.homes/))
+[encyclopedia](https://encyclopedia.homes/)
