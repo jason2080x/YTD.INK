@@ -15,19 +15,19 @@ Object.defineProperty(global, '__stack', {
     var stack = err.stack
     Error.prepareStackTrace = orig
     return stack
-  },
+  }
 })
 
 Object.defineProperty(global, '__line', {
   get: function () {
     return __stack[1].getLineNumber()
-  },
+  }
 })
 
 Object.defineProperty(global, '__function', {
   get: function () {
     return __stack[1].getFunctionName()
-  },
+  }
 })
 function totalSeconds(time) {
   var parts = time.split(':')
@@ -44,8 +44,8 @@ const createWindow = () => {
     show: false,
     icon: path.join(app.getAppPath(), 'icon.ico'),
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    },
+      preload: path.join(__dirname, 'preload.js')
+    }
   })
 
   // and load the index.html of the app.
@@ -105,7 +105,7 @@ const createWindow = () => {
             type: 2,
             ext: mc[2],
             filesize: parseFloat(mc[4]).toFixed(1) + mc[5].replace('i', ''),
-            quality: mc[3],
+            quality: mc[3]
           }
           if (line.indexOf('video only') !== -1) {
             f.type = 3
@@ -140,7 +140,7 @@ const createWindow = () => {
       options = ['-f', req.id, '-o', output_file_path_1, '--encoding', 'utf-8', req.url]
       if (os.hostname() === 'PC2021') {
         options.push('--proxy')
-        options.push('192.168.60.80:10809')
+        options.push('127.0.0.1:10809')
       }
       //下载视频
       let exe = child_process.spawn(ytdlp_path, options)
@@ -162,7 +162,7 @@ const createWindow = () => {
           options = ['-f', req.audio_id, '-o', output_file_path_2, '--encoding', 'utf-8', req.url]
           if (os.hostname() === 'PC2021') {
             options.push('--proxy')
-            options.push('192.168.60.80:10809')
+            options.push('127.0.0.1:10809')
           }
           //下载音频
           exe = child_process.spawn(ytdlp_path, options)
@@ -174,7 +174,7 @@ const createWindow = () => {
             if ((mc = line.match(/\[download\] +([0-9.]+)% of/))) {
               mainWindow.webContents.send('update_progress', [
                 req.btn_id,
-                (mc[1] * 0.25 + 25).toFixed(1),
+                (mc[1] * 0.25 + 25).toFixed(1)
               ])
             }
           })
@@ -189,7 +189,7 @@ const createWindow = () => {
               'copy',
               '-c:a',
               'aac',
-              output_file_path_3,
+              output_file_path_3
             ]
             //合并
             let all_time = ''
@@ -202,13 +202,17 @@ const createWindow = () => {
                 let pct = (100 * totalSeconds(mc[1])) / totalSeconds(all_time)
                 mainWindow.webContents.send('update_progress', [
                   req.btn_id,
-                  (pct * 0.5 + 50).toFixed(1),
+                  (pct * 0.5 + 50).toFixed(1)
                 ])
               }
             })
             exe.on('close', (code) => {
-              fs.unlinkSync(output_file_path_1)
-              fs.unlinkSync(output_file_path_2)
+              if (fs.existsSync(output_file_path_1)) {
+                fs.unlinkSync(output_file_path_1)
+              }
+              if (fs.existsSync(output_file_path_2)) {
+                fs.unlinkSync(output_file_path_2)
+              }
               mainWindow.webContents.send('show_open', req.btn_id)
             })
           })
