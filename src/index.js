@@ -52,9 +52,9 @@ const createWindow = () => {
   mainWindow.loadURL('https://ytd.ink/')
   mainWindow.maximize()
   mainWindow.show()
-  let res_path = path.join(process.resourcesPath, 'res')
+  let res_path = path.join(process.resourcesPath, 'extra_resources')
   if (process.resourcesPath.indexOf('node_modules') !== -1) {
-    res_path = path.join(app.getAppPath(), 'res')
+    res_path = path.join(app.getAppPath(), 'extra_resources')
   }
   const out_put_path = path.join(res_path, 'download')
   if (!fs.existsSync(out_put_path)) {
@@ -91,6 +91,7 @@ const createWindow = () => {
     }
     if (err) {
       console.log(err)
+      res.error = err
       res.status_code = __line
     } else {
       let img_size = 0
@@ -240,7 +241,7 @@ const createWindow = () => {
     child_process.exec('start "" "' + out_put_path + '"')
   })
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
