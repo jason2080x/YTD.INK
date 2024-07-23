@@ -47,7 +47,6 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js')
     }
   })
-
   // and load the index.html of the app.
   mainWindow.removeMenu()
   mainWindow.loadURL('https://ytd.ink/')
@@ -61,6 +60,18 @@ const createWindow = () => {
   if (!fs.existsSync(out_put_path)) {
     fs.mkdirSync(out_put_path, { recursive: true })
   }
+  ipcMain.on('show-context-menu', (event, param) => {
+    let template = [
+      { role: 'undo', label: 'Undo' },
+      { role: 'selectAll', label: 'Select All' },
+      { type: 'separator' },
+      { role: 'cut', label: 'Cut', enabled: param.cut },
+      { role: 'copy', label: 'Copy', enabled: param.copy },
+      { role: 'paste', label: 'Paste', enabled: param.paste }
+    ]
+    const menu = Menu.buildFromTemplate(template)
+    menu.popup(BrowserWindow.fromWebContents(event.sender))
+  })
   const ytdlp_path = path.join(res_path, 'yt-dlp.exe')
   ipcMain.handle('get_version', () => {
     return app.getVersion()
@@ -72,7 +83,7 @@ const createWindow = () => {
     let err = null
     let options =
       '-F --print "@title@%(title)s#title#" --print "@duration@%(duration>%H:%M:%S)s#duration#" --list-thumbnails --encoding utf-8'
-    if (os.hostname() === 'PC2021') options += ' --proxy 192.168.60.80:10809'
+    if (os.hostname() === 'PC2021') options += ' --proxy 127.0.0.1:10809'
     try {
       output = child_process.execSync(path.join(ytdlp_path) + ' ' + options + ' ' + url)
     } catch (e) {

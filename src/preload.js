@@ -15,5 +15,20 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   open: () => {
     return ipcRenderer.invoke('open')
-  },
+  }
+})
+document.addEventListener('contextmenu', function (e) {
+  const selectText = window.getSelection().toString() ? true : false
+  if (
+    selectText ||
+    e.target.tagName == 'TEXTAREA' ||
+    (e.target.tagName == 'INPUT' && (e.target.type == 'text' || e.target.type == 'number'))
+  ) {
+    const paste = navigator.clipboard.readText() ? true : false
+    ipcRenderer.send('show-context-menu', {
+      paste,
+      copy: selectText,
+      cut: selectText
+    })
+  }
 })
